@@ -45,7 +45,7 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
             return RedirectToAction("Index");//Yukardaki satırlar ile aynı ama bu daha temiz.
         }
 
-        [HttpGet]//select işlemi
+        [HttpGet]//yeni ve guncelleme işlemi
         public ActionResult Create(int? id)//bu gosterim id null olabilir. hem create hem edit sayflarını ortak yaptıgımız için id yolladıgımızda yollamadıgımızda olacak.
         {
             if (id==null)
@@ -57,7 +57,7 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
             return View(k);
         }
 
-        [HttpPost]//değişiklik yapınca update insert
+        [HttpPost]//Kayıt
         public ActionResult Create(KATEGORI k)
         {
             if (k.KATEGORI_REFNO == 0)

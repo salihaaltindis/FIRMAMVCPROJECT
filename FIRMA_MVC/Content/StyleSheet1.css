@@ -83,3 +83,14 @@ a{
      height:50px;
      line-height:50px;
  }
+
+.urunresim{
+    height:60px;
+    width:50px;
+}
+
+#hatalar{
+    background-color:white;
+    color:red;
+    border:1px solid red;
+}
