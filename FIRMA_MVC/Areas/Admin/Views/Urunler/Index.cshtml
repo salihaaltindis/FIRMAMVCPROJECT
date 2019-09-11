@@ -1,12 +1,13 @@
 ﻿@model List<FIRMA_MVC.Models.URUN>
 @{
     ViewBag.Title = "Index";
+    string veri = ViewData["veri"].ToString();
 }
 
 <div id="arama">
     <form action="/Admin/Urunler/Search" method="post">
         <label for="txtAra">Ürün Adı</label>
-        <input name="txtAra" type="text" placeholder="Ürün adı giriniz" />
+        <input name="txtAra" type="text" placeholder="Ürün adı giriniz" value="@veri"/>
         <input type="submit" class="button" value="Ara" />
         <a class="lnkbutton" href="/Admin/Urunler/Create">Yeni</a>
     </form>
