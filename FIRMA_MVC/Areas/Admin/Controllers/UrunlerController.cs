@@ -13,9 +13,6 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
         // GET: Admin/Urunler
         public ActionResult Index(string arama)
         {
-            //List<URUN> liste = db.URUNs.ToList();
-            //return View(liste);
-
             List<URUN> liste = new List<URUN>();
             if (arama == null)
             {
