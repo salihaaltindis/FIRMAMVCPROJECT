@@ -14,14 +14,17 @@ namespace FIRMA_MVC.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name="Proje Adý:")]
         public string ADI { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Resim:")]
         public string RESIM { get; set; }
 
         [Required]
         [StringLength(1000)]
+        [Display(Name = "Açýklama:")]
         public string ACIKLAMA { get; set; }
     }
 }
