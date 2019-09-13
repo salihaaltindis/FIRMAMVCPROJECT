@@ -18,14 +18,14 @@ namespace FIRMA_MVC.Controllers
         public ActionResult Kurumsal()
         {
 
-            ViewData["sayfa"] = db.SAYFAs.Where(s=>s.BASLIK == "kurumsal").SingleOrDefault();
+            ViewData["sayfa"] = db.SAYFAs.Where(s=>s.BASLIK == "kurumsal").FirstOrDefault();
             return View();
         }
 
         public ActionResult Iletisim()
         {
 
-            ViewData["sayfa"] = db.SAYFAs.Where(s => s.BASLIK == "iletisim").SingleOrDefault();
+            ViewData["sayfa"] = db.SAYFAs.Where(s => s.BASLIK == "iletisim").FirstOrDefault();
             return View("Kurumsal");
         }
     }
