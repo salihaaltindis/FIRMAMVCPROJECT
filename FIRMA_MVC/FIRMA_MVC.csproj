@@ -208,6 +208,7 @@
     <Content Include="Areas\Admin\Views\Kategoriler\Create.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\UrunListe\Index.cshtml" />
+    <Content Include="Views\Home\Kurumsal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
