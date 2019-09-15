@@ -2,10 +2,19 @@
 @model IEnumerable<KULLANICI>
 @{
     ViewBag.Title = "Index";
+    string veri = ViewData["veri"].ToString();
 }
 
 <div id="arama">
+        <form action="/Admin/Kullanicilar/Search" method="post">
+            <label>Ara</label>
+            <input type="text" name="txtAra" placeholder="Kullanıcı adı giriniz:" value="@veri" />
+            <input type="submit" value="Ara" class="button" />
+            <span class="lnkbutton">
+                <a href="/Admin/Kullanicilar/Create">Yeni</a>
+            </span>
 
+        </form>
 </div>
 
 <div id="liste">

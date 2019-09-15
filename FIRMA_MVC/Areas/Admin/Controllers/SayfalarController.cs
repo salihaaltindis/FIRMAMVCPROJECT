@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FIRMA_MVC.Models;
@@ -12,116 +9,78 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
 {
     public class SayfalarController : Controller
     {
-        private FIRMAMODEL db = new FIRMAMODEL();
-
+        FIRMAMODEL db = new FIRMAMODEL();
         // GET: Admin/Sayfalar
-        public ActionResult Index()
+        public ActionResult Index(string arama)
         {
-            return View(db.SAYFAs.ToList());
+            List<SAYFA> liste = new List<SAYFA>();
+            if (arama == null)
+            {
+                arama = "";
+                liste = db.SAYFAs.ToList();
+            }
+            else
+            {
+                liste = db.SAYFAs.Where(k => k.BASLIK.Contains(arama)).ToList();
+            }
+            ViewData["veri"] = arama;
+            return View(liste);
         }
 
-        // GET: Admin/Sayfalar/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SAYFA sAYFA = db.SAYFAs.Find(id);
-            if (sAYFA == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sAYFA);
-        }
-
-        // GET: Admin/Sayfalar/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/Sayfalar/Create
-        // Aşırı gönderim saldırılarından korunmak için, lütfen bağlamak istediğiniz belirli özellikleri etkinleştirin, 
-        // daha fazla bilgi için https://go.microsoft.com/fwlink/?LinkId=317598 sayfasına bakın.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SAYFA_REFNO,BASLIK,ICERIK")] SAYFA sAYFA)
-        {
-            if (ModelState.IsValid)
-            {
-                db.SAYFAs.Add(sAYFA);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(sAYFA);
-        }
-
-        // GET: Admin/Sayfalar/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SAYFA sAYFA = db.SAYFAs.Find(id);
-            if (sAYFA == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sAYFA);
-        }
-
-        // POST: Admin/Sayfalar/Edit/5
-        // Aşırı gönderim saldırılarından korunmak için, lütfen bağlamak istediğiniz belirli özellikleri etkinleştirin, 
-        // daha fazla bilgi için https://go.microsoft.com/fwlink/?LinkId=317598 sayfasına bakın.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SAYFA_REFNO,BASLIK,ICERIK")] SAYFA sAYFA)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(sAYFA).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(sAYFA);
-        }
-
-        // GET: Admin/Sayfalar/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SAYFA sAYFA = db.SAYFAs.Find(id);
-            if (sAYFA == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sAYFA);
-        }
 
-        // POST: Admin/Sayfalar/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            SAYFA sAYFA = db.SAYFAs.Find(id);
-            db.SAYFAs.Remove(sAYFA);
-            db.SaveChanges();
+            if (id != null)//id istek içerisinde varsa
+            {
+                SAYFA s = db.SAYFAs.Find(id);
+                if (s != null)//id sayfada varsa
+                {
+                    db.SAYFAs.Remove(s);
+                    db.SaveChanges();//listeden databaseden silinmesini sağlıyor.
+                }
+            }
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        public ActionResult Create(int? id)
         {
-            if (disposing)
+            SAYFA s = new SAYFA();
+            if (id != null)
             {
-                db.Dispose();
+                s = db.SAYFAs.Find(id);//sayfa bulunuyor
+                if (s == null)//sayfa yoksa
+                {
+                    s = new SAYFA();
+                }
             }
-            base.Dispose(disposing);
+            return View(s);//model binding
+        }
+
+        [HttpPost]
+        public ActionResult Create(SAYFA sayfa)
+        {
+            if (ModelState.IsValid)
+            {
+                if (sayfa.SAYFA_REFNO == 0)
+                {
+                    sayfa.ICERIK = HttpUtility.HtmlDecode(sayfa.ICERIK);
+                    db.SAYFAs.Add(sayfa);
+                }
+                else
+                {
+                    sayfa.ICERIK = HttpUtility.HtmlDecode(sayfa.ICERIK);
+                    db.Entry(sayfa).State = System.Data.Entity.EntityState.Modified;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");//listeleme yapılıyor.
+            }
+            //hata var kayıt ekranı acılacak
+            return View(sayfa);//model binding
+        }
+
+        public ActionResult Search(string txtAra)
+        {
+            return RedirectToAction("Index", "Sayfalar", new { arama = txtAra });
         }
     }
 }

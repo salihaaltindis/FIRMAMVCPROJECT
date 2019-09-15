@@ -1,39 +1,48 @@
-﻿@model IEnumerable<FIRMA_MVC.Models.SAYFA>
-
+﻿@using FIRMA_MVC.Models;
+@model IEnumerable<SAYFA>
 @{
     ViewBag.Title = "Index";
+    string veri = ViewData["veri"].ToString();
 }
 
+<div id="arama">
+    <form action="/Admin/Sayfalar/Search" method="post">
+        <label>Ara</label>
+        <input type="text" name="txtAra" placeholder="Sayfa Başlığı giriniz:" value="@veri" />
+        <input type="submit" value="Ara" class="button" />
+        <span class="lnkbutton">
+            <a href="/Admin/Sayfalar/Create">Yeni</a>
+        </span>
+
+    </form>
+</div>
+
+<div id="liste">
+    <table>
+        <tr>
+            <td>Sil</td>
+            <td>@Html.DisplayNameFor(model => model.SAYFA_REFNO)</td>
+            <td>@Html.DisplayNameFor(model => model.BASLIK)</td>
+            <td>@Html.DisplayNameFor(model => model.ICERIK)</td>
+        </tr>
 
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BASLIK)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ICERIK)
-        </th>
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Sil", "Delete", new { id = item.SAYFA_REFNO })
+                </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BASLIK)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ICERIK)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SAYFA_REFNO }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SAYFA_REFNO }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SAYFA_REFNO })
-        </td>
-    </tr>
-}
+                <td>@Html.DisplayFor(model => item.SAYFA_REFNO)</td>
+                <td>
+                    @Html.ActionLink(item.BASLIK, "Create", new { id = item.SAYFA_REFNO })
+                </td>
+                <td>@Html.Raw(item.ICERIK)</td>
+            </tr>
+        }
+    </table>
+</div>
 
-</table>
+
+

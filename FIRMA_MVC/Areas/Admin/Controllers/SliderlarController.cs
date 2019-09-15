@@ -15,113 +15,74 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
         private FIRMAMODEL db = new FIRMAMODEL();
 
         // GET: Admin/Sliderlar
-        public ActionResult Index()
+        public ActionResult Index(string arama)
         {
-            return View(db.SLIDERs.ToList());
+            List<SLIDER> liste = new List<SLIDER>();
+            if (arama == null)
+            {
+                arama = "";
+                liste = db.SLIDERs.ToList();
+            }
+            else
+            {
+                liste = db.SLIDERs.Where(k => k.BASLIK.Contains(arama)).ToList();
+            }
+            ViewData["veri"] = arama;
+            return View(liste);
         }
 
-        // GET: Admin/Sliderlar/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SLIDER sLIDER = db.SLIDERs.Find(id);
-            if (sLIDER == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sLIDER);
-        }
-
-        // GET: Admin/Sliderlar/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/Sliderlar/Create
-        // Aşırı gönderim saldırılarından korunmak için, lütfen bağlamak istediğiniz belirli özellikleri etkinleştirin, 
-        // daha fazla bilgi için https://go.microsoft.com/fwlink/?LinkId=317598 sayfasına bakın.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SLIDER_REFNO,BASLIK,LINK,RESIM,DURUMU")] SLIDER sLIDER)
-        {
-            if (ModelState.IsValid)
-            {
-                db.SLIDERs.Add(sLIDER);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(sLIDER);
-        }
-
-        // GET: Admin/Sliderlar/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SLIDER sLIDER = db.SLIDERs.Find(id);
-            if (sLIDER == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sLIDER);
-        }
-
-        // POST: Admin/Sliderlar/Edit/5
-        // Aşırı gönderim saldırılarından korunmak için, lütfen bağlamak istediğiniz belirli özellikleri etkinleştirin, 
-        // daha fazla bilgi için https://go.microsoft.com/fwlink/?LinkId=317598 sayfasına bakın.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SLIDER_REFNO,BASLIK,LINK,RESIM,DURUMU")] SLIDER sLIDER)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(sLIDER).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(sLIDER);
-        }
-
-        // GET: Admin/Sliderlar/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SLIDER sLIDER = db.SLIDERs.Find(id);
-            if (sLIDER == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sLIDER);
-        }
 
-        // POST: Admin/Sliderlar/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            SLIDER sLIDER = db.SLIDERs.Find(id);
-            db.SLIDERs.Remove(sLIDER);
-            db.SaveChanges();
+            if (id != null)//id istek içerisinde varsa
+            {
+                SLIDER s = db.SLIDERs.Find(id);
+                if (s != null)//id SLİDERLARDA varsa
+                {
+                    db.SLIDERs.Remove(s);
+                    db.SaveChanges();//listeden databaseden silinmesini sağlıyor.
+                }
+            }
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        public ActionResult Create(int? id)
         {
-            if (disposing)
+            SLIDER s = new SLIDER();
+            if (id != null)
             {
-                db.Dispose();
+                s = db.SLIDERs.Find(id);//slider bulunuyor
+                if (s == null)//slider yoksa
+                {
+                    s = new SLIDER();
+                }
             }
-            base.Dispose(disposing);
+            return View(s);//model binding
+        }
+
+        [HttpPost]
+        public ActionResult Create(SLIDER slider)
+        {
+            if (ModelState.IsValid)
+            {
+                if (slider.SLIDER_REFNO == 0)
+                {
+                    db.SLIDERs.Add(slider);
+                }
+                else
+                {
+                    db.Entry(slider).State = System.Data.Entity.EntityState.Modified;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");//listeleme yapılıyor.
+            }
+            //hata var kayıt ekranı acılacak
+            return View(slider);//model binding
+        }
+
+        public ActionResult Search(string txtAra)
+        {
+            return RedirectToAction("Index", "Sliderlar", new { arama = txtAra });
         }
     }
 }

@@ -1,49 +1,49 @@
-﻿@model IEnumerable<FIRMA_MVC.Models.SLIDER>
-
+﻿@using FIRMA_MVC.Models;
+@model IEnumerable<SLIDER>
 @{
     ViewBag.Title = "Index";
+    string veri = ViewData["veri"].ToString();
 }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BASLIK)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LINK)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RESIM)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DURUMU)
-        </th>
-        <th></th>
-    </tr>
+<div id="arama">
+    <form action="/Admin/Sliderlar/Search" method="post">
+        <label>Ara</label>
+        <input type="text" name="txtAra" placeholder="Slider Başlığı giriniz:" value="@veri" />
+        <input type="submit" value="Ara" class="button" />
+        <span class="lnkbutton">
+            <a href="/Admin/Sliderlar/Create">Yeni</a>
+        </span>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BASLIK)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LINK)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RESIM)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DURUMU)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SLIDER_REFNO }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SLIDER_REFNO }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SLIDER_REFNO })
-        </td>
-    </tr>
-}
+    </form>
+</div>
 
-</table>
+<div id="liste">
+    <table>
+        <tr>
+            <td>Sil</td>
+            <td>@Html.DisplayNameFor(model => model.SLIDER_REFNO)</td>
+            <td>@Html.DisplayNameFor(model => model.BASLIK)</td>
+            <td>@Html.DisplayNameFor(model => model.LINK)</td>
+            <td>@Html.DisplayNameFor(model => model.RESIM)</td>
+            <td>@Html.DisplayNameFor(model => model.DURUMU)</td>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Sil", "Delete", new { id = item.SLIDER_REFNO })
+                </td>
+
+                <td>@Html.DisplayFor(model => item.SLIDER_REFNO)</td>
+                <td>
+                    @Html.ActionLink(item.BASLIK, "Create", new { id = item.SLIDER_REFNO })
+                </td>
+                <td>@Html.Raw(item.LINK)</td>
+                <td><img id="img@(item.SLIDER_REFNO)" class="urunresim" src="~/images/@item.RESIM" /></td>
+                <td>@Html.Raw(item.DURUMU)</td>
+            </tr>
+        }
+    </table>
+</div>

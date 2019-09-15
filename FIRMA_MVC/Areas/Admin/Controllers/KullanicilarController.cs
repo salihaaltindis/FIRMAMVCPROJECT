@@ -17,13 +17,14 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
             List<KULLANICI> liste = new List<KULLANICI>();
             if (arama==null)
             {
+                arama = "";
                 liste = db.KULLANICIs.ToList();
             }
             else
             {
                 liste = db.KULLANICIs.Where(k=> k.KULLANICI_ADI.Contains(arama)).ToList();
             }
-
+            ViewData["veri"] = arama;
             return View(liste);
         }
 
@@ -80,7 +81,7 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
 
         public ActionResult Search(string txtAra)
         {
-            return RedirectToAction("Index",new { arama = txtAra});
+            return RedirectToAction("Index","Kullanicilar",new { arama = txtAra});
         }
     }
 }

@@ -1,44 +1,49 @@
-﻿@model IEnumerable<FIRMA_MVC.Models.PROJE>
-
+﻿@using FIRMA_MVC.Models;
+@model IEnumerable<PROJE>
 @{
     ViewBag.Title = "Index";
+    string veri = ViewData["veri"].ToString();
 }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ADI)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RESIM)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ACIKLAMA)
-        </th>
-        <th></th>
-    </tr>
+<div id="arama">
+    <form action="/Admin/Projeler/Search" method="post">
+        <label>Ara</label>
+        <input type="text" name="txtAra" placeholder="Proje adı giriniz:" value="@veri" />
+        <input type="submit" value="Ara" class="button" />
+        <span class="lnkbutton">
+            <a href="/Admin/Projeler/Create">Yeni</a>
+        </span>
 
-    @foreach (var item in Model)
-    {
+    </form>
+</div>
+
+<div id="liste">
+    <table>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ADI)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RESIM)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ACIKLAMA)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PROJE_REFNO }) |
-                @Html.ActionLink("Details", "Details", new { id = item.PROJE_REFNO }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PROJE_REFNO })
-            </td>
+            <td>Sil</td>
+            <td>@Html.DisplayNameFor(model => model.PROJE_REFNO)</td>
+            <td>@Html.DisplayNameFor(model => model.ADI)</td>
+            <td>@Html.DisplayNameFor(model => model.RESIM)</td>
+            <td>@Html.DisplayNameFor(model => model.ACIKLAMA)</td>
         </tr>
-    }
 
-</table>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Sil", "Delete", new { id = item.PROJE_REFNO })
+                </td>
+
+                <td>@Html.DisplayFor(model => item.PROJE_REFNO)</td>
+                <td>
+                    @Html.ActionLink(item.ADI, "Create", new { id = item.PROJE_REFNO })
+                </td>
+
+                <td><img id="img@(item.PROJE_REFNO)" class="urunresim" src="~/images/@item.RESIM" /></td>
+                <td>@Html.DisplayFor(model => item.ACIKLAMA)</td>
+            </tr>
+        }
+    </table>
+</div>
+
