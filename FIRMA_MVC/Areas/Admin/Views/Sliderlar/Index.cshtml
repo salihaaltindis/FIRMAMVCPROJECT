@@ -5,6 +5,9 @@
     string veri = ViewData["veri"].ToString();
 }
 
+
+    
+
 <div id="arama">
     <form action="/Admin/Sliderlar/Search" method="post">
         <label>Ara</label>
@@ -42,7 +45,7 @@
                 </td>
                 <td>@Html.Raw(item.LINK)</td>
                 <td><img id="img@(item.SLIDER_REFNO)" class="urunresim" src="~/images/@item.RESIM" /></td>
-                <td>@Html.Raw(item.DURUMU)</td>
+                <td>@Html.DisplayFor(model => item.DURUMU)</td>
             </tr>
         }
     </table>

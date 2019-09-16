@@ -24,5 +24,17 @@ namespace FIRMA_MVC.Controllers
 
             return View();
         }
+
+        public ActionResult Detay(int id=0)
+        {
+            URUN urun = db.URUNs.Find(id);
+            if (urun == null)
+            {
+                TempData["m"] = "Urun bulunamadı";
+                //Goster metot Mesaj controller
+                return RedirectToAction("Goster","Mesaj");
+            }
+            return View(urun);
+        }
     }
 }

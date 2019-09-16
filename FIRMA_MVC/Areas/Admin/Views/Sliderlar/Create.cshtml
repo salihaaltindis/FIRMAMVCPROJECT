@@ -36,14 +36,25 @@
             @Html.LabelFor(model => model.RESIM, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="file" name="RESIM" id="RESIM" value="@Model.RESIM" class="form-control" />
-                <img class="urunresim" src="~/images/@Model.RESIM" />
+                <img class="urunresim" src="~/images/@Model.RESIM" name="RESIM" id="RESIM" data-val="true" data-val-required="Resim alanı gereklidir." />
+                @Html.ValidationMessageFor(model => model.RESIM, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class=" form-group">
             @Html.LabelFor(model => model.DURUMU, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DURUMU, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DURUMU, "", new { @class = "text-danger" })
+                <select name="DURUMU" id="DURUMU" class="form-control">
+                    @if (Model.DURUMU == true)
+                    {
+                        <option selected value="true">Aktif</option>
+                        <option value="false">Pasif</option>
+                    }
+                    else
+                    {
+                        <option value="true">Aktif</option>
+                        <option selected value="false">Pasif</option>
+                    }
+                </select>
             </div>
         </div>
         <div class="form-group">

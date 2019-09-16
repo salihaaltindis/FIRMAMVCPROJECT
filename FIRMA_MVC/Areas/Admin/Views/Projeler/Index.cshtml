@@ -41,7 +41,7 @@
                 </td>
 
                 <td><img id="img@(item.PROJE_REFNO)" class="urunresim" src="~/images/@item.RESIM" /></td>
-                <td>@Html.DisplayFor(model => item.ACIKLAMA)</td>
+                <td>@Html.Raw(item.ACIKLAMA)</td>
             </tr>
         }
     </table>

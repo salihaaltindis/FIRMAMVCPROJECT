@@ -2,7 +2,14 @@
 @{
     ViewBag.Title = "Index";
     List<SLIDER> slider = ViewData["slider"] as List<SLIDER>;
+    List<PROJE> projeler = ViewData["projeler"] as List<PROJE>;
+    List<URUN> urunler = ViewData["urunler"] as List<URUN>;
+
+    int sayi = Convert.ToInt32(ViewData["sayi"]);
 }
+
+    <div>Ziyaretçi:@sayi</div>
+<div>Saat @ViewData["saat"].ToString()</div>
 
 <div id="slider">
 
@@ -37,9 +44,33 @@
         </a>
     </div>
 
+</div>
 
 
 
+<div id="projeler" class="col-md-6">
+    <div id="projebaslik">PROJE</div>
+    @foreach (var item in projeler)
+    {
+        <div class="proje">
+            <div class="projeadi">@item.ADI</div>
+            <div class="projeresim"><img src="~/images/proje/@item.RESIM" /></div>
+            <div class="projedetay"><a href="/ProjeListe/Detay/@item.PROJE_REFNO">Detay</a></div>
+        </div>
 
+    }
 
+</div>
+
+<div id="urunler" class="col-md-6">
+    <div id="urunbaslik">URUN</div>
+    @foreach (var item in urunler)
+    {
+        <div class="urun">
+            <div class="urunadi">@item.URUN_ADI</div>
+            <div class="urunresim"><img src="~/images/proje/@item.RESIM1" /></div>
+            <div class="urundetay"><a href="/ProjeListe/Detay/@item.URUN_REFNO">Detay</a></div>
+        </div>
+
+    }
 </div>

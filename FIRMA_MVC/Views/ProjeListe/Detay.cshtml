@@ -1,0 +1,19 @@
+﻿@model FIRMA_MVC.Models.PROJE
+@{
+    ViewBag.Title = "Detay";
+}
+
+<div id="baslik">
+    @Model.ADI
+</div>
+
+<div id="resim">
+    @if (String.IsNullOrEmpty(Model.RESIM) == false)
+    {
+        <img src="~/images/@Model.RESIM" class="urundetayresim" />
+    }
+</div>
+
+<div id="aciklama">
+    @Html.Raw(@Model.ACIKLAMA)
+</div>

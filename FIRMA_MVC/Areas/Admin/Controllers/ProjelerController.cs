@@ -80,10 +80,14 @@ namespace FIRMA_MVC.Areas.Admin.Controllers
                 {
                     RESIM.SaveAs(Request.PhysicalApplicationPath + "/images/" + RESIM.FileName); //resim kaydediliyor.
                 }
-                return RedirectToAction("Index");//listeleme yapılıyor.
+                
             }
-            //hata var kayıt ekranı acılacak
-            return View(proje);//model binding
+            else
+            {
+                //hata var kayıt ekranı acılacak
+                return View(proje);//model binding
+            }
+            return RedirectToAction("Index");//listeleme yapılıyor.
         }
 
         public ActionResult Search(string txtAra)

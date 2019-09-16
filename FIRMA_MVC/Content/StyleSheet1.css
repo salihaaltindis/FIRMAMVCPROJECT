@@ -48,6 +48,7 @@ a{
     margin-bottom:5px;
 }
 
+
 #menu {
     height: 30px;
     line-height: 30px;
@@ -62,13 +63,14 @@ a{
     width:60px;
 }
 
-.lnkbutton {
+/*.lnkbutton {
     background-color: #d7d7d7;
     border: 1px solid #a8a8a8;
     height: 20px;
     vertical-align:top;
     padding:2px 10px 2px 10px;
-}
+    
+}*/
 
 .lnkbutton a{
     color : black;
