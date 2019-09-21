@@ -29,6 +29,7 @@
             display: inline-block;
             font-family: Verdana;
         }
+
         .button {
             background-color: white;
             border: 2px solid #09F;
@@ -48,19 +49,32 @@
     </style>
 </head>
 <body>
-    <div id="banner">YÖNETİM PANELİ</div>
+
+    <div id="banner">
+        YÖNETİM PANELİ
+        <a href="/Admin/Giris/Cikis">@User.Identity.Name Çıkış</a>
+    </div>
+
+
     <div id="menu">
         <a href="/Admin/Urunler/Index">Ürünler</a>
         <a href="/Admin/Kategoriler/Index">Kategoriler</a>
+
         <a href="/Admin/Kullanicilar/Index">Kullanıcılar</a>
         <a href="/Admin/Markalar/Index">Markalar</a>
         <a href="/Admin/Projeler/Index">Projeler</a>
+
         <a href="/Admin/Sayfalar/Index">Sayfalar</a>
         <a href="/Admin/Sliderlar/Index">Sliderlar</a>
+
     </div>
+
+
+
     <div>
         @RenderBody()
     </div>
+
     <div id="footer"></div>
 </body>
 </html>

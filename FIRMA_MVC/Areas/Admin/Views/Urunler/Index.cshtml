@@ -7,7 +7,7 @@
 <div id="arama">
     <form action="/Admin/Urunler/Search" method="post">
         <label for="txtAra">Ürün Adı</label>
-        <input name="txtAra" type="text" placeholder="Ürün adı giriniz" value="@veri"/>
+        <input name="txtAra" type="text" placeholder="Ürün adı giriniz" value="@veri" />
         <input type="submit" class="button" value="Ara" />
         <a class="lnkbutton" href="/Admin/Urunler/Create">Yeni</a>
     </form>
@@ -26,7 +26,7 @@
             <th>Resim</th>
         </tr>
 
-        @{ 
+        @{
             foreach (var urun in Model)
             {
                 <tr>
@@ -35,7 +35,8 @@
                     <th>
                         <a href="/Admin/Urunler/Create/@urun.URUN_REFNO">
                             @urun.URUN_ADI
-                        </a></th>
+                        </a>
+                    </th>
                     <th>@urun.FIYATI</th>
                     <th>@urun.DURUMU</th>
                     <th>@urun.KATEGORI.KATEGORI_ADI</th>
@@ -47,3 +48,4 @@
     </table>
 </div>
 
+@Html.Partial("_Sayfalama");
